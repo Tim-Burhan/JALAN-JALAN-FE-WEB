@@ -3,6 +3,7 @@ const initialState = {
   token: null,
   errMsg: "",
   sccMsg: "",
+  forgotPass: ""
 };
 
 const auth = (state = initialState, action) => {
@@ -31,6 +32,11 @@ const auth = (state = initialState, action) => {
         errMsg: action.payload,
       };
     }
+    case 'SET_FORGOT_PASSWORD':
+      return {
+        ...state,
+        forgotPass: action.payload,
+      };
     case "AUTH_LOGOUT": {
       return {
         ...state,

@@ -1,5 +1,7 @@
 import { http } from "../../helpers/http";
 
+import Swal from "sweetalert2";
+
 const { REACT_APP_BACKEND_URL: URL } = process.env;
 
 export const toggleAuth = () => {
@@ -49,6 +51,36 @@ export const authRegister = (name, email, password) => {
         type: "AUTH_REGISTER_FAILED",
         payload: err.response.data.message,
       });
+    }
+  };
+};
+
+export const forgotPass = (email) => {
+  return async (dispatch) => {
+    console.log('dapat email', email)
+    const form = new URLSearchParams();
+    form.append("email", email);
+    try {
+      const { data } = await http().post(`${URL}/auth/forgot-password`, form.toString());
+      dispatch({
+        type: 'SET_FORGOT_PASSWORD',
+        payload: Swal.fire({
+          icon: 'success',
+          title: data.message
+        })
+      });
+      dispatch({
+        type: 'SET_EMAIL',
+        payload: email
+      })
+    } catch (err) {
+      dispatch({
+        type: "FORGOT_PASSWORD_FAILED",
+        payload: Swal.fire({
+          icon: 'error',
+          title: err.response.data.message
+        })
+      }) //error from axios
     }
   };
 };
