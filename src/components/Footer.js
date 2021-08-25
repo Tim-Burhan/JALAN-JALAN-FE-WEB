@@ -13,7 +13,7 @@ const headSection = {
 
 export default function Footer() {
   return (
-    <Container style={{ fontSize: 14, marginTop: 50 }}>
+    <Container style={{ fontSize: 14, marginTop: 50, }} >
       <Row>
         <Col className="d-flex flex-column flex-md-row justify-content-sm-between">
           <ListGroup className="mb-3" as="ul">

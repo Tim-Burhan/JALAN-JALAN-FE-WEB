@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import Footer from "../components/Footer";
-import MainNavbar from "../components/MainNavbar";
+// import MainNavbar from "../components/MainNavbar";
 import TopDestinationList from "../components/TopDestinationList";
 import {
   TextDetail,
@@ -29,6 +29,8 @@ import {
 import BgJumbotron from "../assets/img/general/bgJumbotron.jpg";
 import japanView from "../assets/img/general/japanView.png";
 import spainView from "../assets/img/general/spainView.png";
+import { connect } from "react-redux";
+import { openNavbar } from "../redux/actions/auth";
 
 const BgTopDestination = styled(CardCst)`
   background-color: #0ddb89;
@@ -103,7 +105,13 @@ const InputSearch = styled(Button)`
   background-colot: grey;
 `;
 
-export default function Explore() {
+
+
+function Explore(props) {
+
+  useEffect(() => {
+    props.openNavbar()
+  },[])
   return (
     <>
       <Jumbotron className="jumbotron">
@@ -218,3 +226,8 @@ export default function Explore() {
     </>
   );
 }
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+const mapDispatchToProps = {openNavbar}
+export default connect(mapStateToProps, mapDispatchToProps)(Explore)

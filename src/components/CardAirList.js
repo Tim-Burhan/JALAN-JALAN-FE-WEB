@@ -18,10 +18,6 @@ export default function CardAirList() {
           </SectionHori>
         </SectionHori>
         <CardAirLine />
-        <CardAirLine />
-        <CardAirLine />
-        <CardAirLine />
-        <CardAirLine />
       </Col>
     </Row>
   );
