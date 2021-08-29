@@ -104,7 +104,9 @@ export default function ProfileCardBox(props) {
     <ProfileCard className="shadow p-3 mb-5 ">
       <ProfileContent>
         <Box>
-          <Profileimg src={props.picture} alt="" />
+          <Profileimg src={props.picture !== null && !props.picture.startsWith("http") ?
+          props.picture = `${URL}${props.picture}`
+          : null } alt="" />
           <Wrapper>
             <label for="upload-photo" className="">
               <SelectPict>

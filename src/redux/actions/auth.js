@@ -23,7 +23,10 @@ export const authLogin = (email, password) => {
       const { data } = await http().post(`${URL}/auth/login`, form.toString());
       dispatch({
         type: "AUTH_LOGIN",
-        payload: data.results.token,
+        payload: {
+          token: data.results.token,
+          message: data.message 
+        },
       });
     } catch (err) {
       console.log("ini eror kenapa", err);
@@ -58,6 +61,10 @@ export const authRegister = (name, email, password) => {
     }
   };
 };
+
+export const resetMessage = () => ({
+  type: "RESET_MESSAGE",
+});
 
 export const authLogOut = () => ({
   type: "AUTH_LOGOUT",

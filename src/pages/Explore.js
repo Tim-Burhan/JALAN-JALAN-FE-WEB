@@ -127,8 +127,8 @@ function Explore(props) {
   useEffect(() => {
     props.openNavbar()
     props.searchProducts(search, page, filterAirline, filterPrice1, filterPrice2, filterDeparture1, filterArrive1, filterTransit1,)
-    props.getDetails(1)
-    props.getHistoryProducts(token)
+    // props.getDetails(1)
+    // props.getHistoryProducts(token)
     props.getProfile(token)
   },[])
   return (

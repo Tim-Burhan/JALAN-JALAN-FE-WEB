@@ -1,7 +1,7 @@
 const initialState = {
   sccMseg: '',
   errMseg : '',
-  history: {},
+  history: [],
 }
 
 const payment = (state= initialState, action) =>{

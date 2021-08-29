@@ -65,15 +65,14 @@ class MyBooking extends Component {
     super(props);
     this.state =  {data: {}};
   }
-  async componentDidMount(){
+  componentDidMount(){
    const {token} = this.props.auth
    const { REACT_APP_BACKEND_URL: URL } = process.env;
-   await this.props.getHistoryProducts(token)
-   await this.props.getProfile(token).then(()=>{
+  this.props.getHistoryProducts(token)
+  this.props.getProfile(token)
     if(this.props.profile.data.user.picture !== null && !this.props.profile.data.user.picture.startsWith('http')){
       this.props.profile.data.user.picture=`${URL}${this.props.profile.data.user.picture}`
     }
-   })
    console.log('data nih',this.props.profile.data.user.picture);
   }
   render() {
@@ -92,7 +91,7 @@ class MyBooking extends Component {
               <ProfileCard 
               name={this.props.profile.data?.user?.name} 
               city={this.props.profile.data?.user?.city} 
-              picture={this.props.profile.data?.user?.picture}
+              picture={this.props.profile?.data?.user?.picture}
               number={this.props.profile.data?.number} 
               />
             </div>

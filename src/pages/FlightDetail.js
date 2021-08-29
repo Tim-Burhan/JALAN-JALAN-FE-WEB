@@ -61,7 +61,7 @@ function FlightDetail(props) {
   const {details} = props.product
   const {token} = props.auth
   let history = useHistory()
-
+  console.log('ini',id);
   useEffect(() => {
     props.getDetails(id)
   }, [])
@@ -69,16 +69,17 @@ function FlightDetail(props) {
   const onBooking = () => {
     props.createTransaction(id, token).then(()=>{
       if(props.transaction.sccMseg === "create transaction successfully!" && props.transaction.errMseg === ""){
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Booking Successfully',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        setTimeout(() => {
-          history.push('/mybooking')
-        }, 1500);
+        return (
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Booking Successfully',
+            showConfirmButton: false,
+            timer: 1500
+          }, setTimeout(() => {
+            history.push('/mybooking')
+          }, 1500))
+        )
       }
     }).catch(()=>{
       Swal.fire({
