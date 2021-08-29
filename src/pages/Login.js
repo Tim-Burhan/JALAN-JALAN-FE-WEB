@@ -12,6 +12,7 @@ import {
   Hr,
 } from "../components/AuthStyles";
 
+import LeftSideAuth from "../components/LeftSideAuth";
 import GeneralButton from "../components/GeneralButton";
 import AuthTitle from "../components/AuthTitle";
 import { authLogin } from "../redux/actions/auth";
@@ -20,8 +21,6 @@ import { useHistory } from "react-router";
 
 import Swal from "sweetalert2";
 import { toggleAuth, openNavbar } from "../redux/actions/auth";
-
-// import { FloatingLabel } from "react-bootstrap";
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -53,21 +52,23 @@ function Login(props) {
             history.push("/");
           }, 1500);
         }
-      }).catch(()=>{  
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Login Failed',
-        showConfirmButton: false,
-        timer: 1500
       })
-    })
-  }
+      .catch(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Login Failed",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+  };
 
   return (
     <Container style={{ paddingTop: 60 }}>
       <Row>
-        <Col>
+        <LeftSideAuth />
+        <Col xs={12} md={6} lg={4}>
           <ContentWrapper>
             <MaxWidth>
               <AuthTitle title="Login" />
