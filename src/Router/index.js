@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import AuthHeader from "../components/AuthHeader";
 import Footer from "../components/Footer";
 import MainNavbar from "../components/MainNavbar";
 import PrivateRoute from "../components/PrivateRoute";
@@ -22,7 +23,7 @@ function Routes({ auth }) {
 
   return (
     <Router>
-      {onAuth === false && <MainNavbar />}
+      {onAuth !== false ? <AuthHeader /> : <MainNavbar />}
       <Switch>
         <Route path="/" exact component={Explore} />
         <Route path="/login" component={Login} />
@@ -45,7 +46,7 @@ function Routes({ auth }) {
           <Profile />
         </PrivateRoute>
       </Switch>
-      <Footer />
+      {onAuth === false && <Footer />}
     </Router>
   );
 }

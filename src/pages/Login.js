@@ -35,6 +35,10 @@ function Login(props) {
     }
   }, []);
 
+  const otherAuth = () => {
+    props.toggleAuth();
+  };
+
   const onLogin = (e) => {
     e.preventDefault();
     props
@@ -91,12 +95,16 @@ function Login(props) {
               </FormAuth>
               <PAuth>Did you forgot your password?</PAuth>
               <PAuth>
-                <Link to="/forgotPass">Tap here for reset</Link>
+                <Link onClick={otherAuth} to="/forgotPass">
+                  Tap here for reset
+                </Link>
               </PAuth>
               <Hr />
               <PAuth>don't have an account yet?</PAuth>
               <PAuth>
-                <Link to="/register">Click here to Sign Up</Link>
+                <Link onClick={otherAuth} to="/register">
+                  Click here to Sign Up
+                </Link>
               </PAuth>
             </MaxWidth>
           </ContentWrapper>

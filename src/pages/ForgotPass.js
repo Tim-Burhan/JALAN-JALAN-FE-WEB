@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import GeneralButton from "../components/GeneralButton";
 import {
@@ -10,7 +12,20 @@ import {
 import AuthTitle from "../components/AuthTitle";
 import LeftSideAuth from "../components/LeftSideAuth";
 
-export default function ForgotPass() {
+import { toggleAuth } from "../redux/actions/auth";
+
+function ForgotPass(props) {
+  let history = useHistory();
+  const { token } = props.auth;
+
+  useEffect(() => {
+    props.toggleAuth();
+    if (token !== null) {
+      console.log(token);
+      history.push("/searchResult");
+    }
+  }, []);
+
   return (
     <Container style={{ paddingTop: 60 }}>
       <Row>
@@ -33,3 +48,12 @@ export default function ForgotPass() {
     </Container>
   );
 }
+
+const mapStateToProps = (state) => ({
+  onAuth: state.auth,
+  auth: state.auth,
+});
+
+const mapDispatchToProps = { toggleAuth };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPass);
