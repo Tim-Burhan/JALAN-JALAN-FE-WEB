@@ -16,11 +16,13 @@ export const CardDestination = styled.div`
 
 export const Input = styled.input`
   padding: 10px 10px;
-  margin: 0;
   background-color: #fff;
   border-width: 0;
   width: 100%;
   border-bottom: 2px solid #d2c2ff;
+  &.form-input {
+    margin-bottom: 25px;
+  }
 `;
 
 export const Section = styled.div`
@@ -59,6 +61,9 @@ export const Text = styled.p`
 export const TextLabel = styled(Text)`
   font-size: 12px;
   font-weight: bold;
+  &.input-label {
+    color: #9b96ab;
+  }
 `;
 
 export const TextCity = styled(Text)`

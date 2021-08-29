@@ -2,27 +2,30 @@ import React, { useState, useEffect } from "react";
 import GeneralButton from "../components/GeneralButton";
 import styled from "styled-components";
 
-import { Container, Image, Row, Col } from "react-bootstrap";
-import {
-  TopSectionStyles as TopSection,
-  Card as CardStyled,
-  Section,
-  Button as ButtonStyled,
-} from "../components/GeneralStyled";
+import { Alert, Col, Container, Image, Row } from "react-bootstrap";
+
 import {
   MainColor,
   MainFontColor,
   SecondaryColor,
 } from "../components/GeneralValues";
+
 import {
+  Button as ButtonStyled,
+  Card as CardStyled,
+  Input,
+  Section,
   SectionJustify,
   TextCity,
   TextDetail,
   TextLabel,
+  TopSectionStyles as TopSection,
 } from "../components/GeneralStyled";
 
 import { FaPlaneDeparture } from "react-icons/fa";
 import { BsFillStarFill } from "react-icons/bs";
+import { MdWarning } from "react-icons/md";
+
 import garudaIndonesia from "../assets/img/airPlane/garudaIndonesia.png";
 import { connect } from "react-redux";
 import { getDetails } from "../redux/actions/product";
@@ -34,6 +37,10 @@ import { useHistory } from "react-router";
 const H6 = styled.h6`
   margin: 0;
   padding: 0;
+`;
+
+const Light = styled.span`
+  color: #0ddb89;
 `;
 
 const SectionPessanger = styled(Section)`
@@ -62,7 +69,7 @@ function FlightDetail(props) {
   const { token } = props.auth;
   let history = useHistory();
 
-  window.alert(id);
+  // window.alert(id);
   useEffect(() => {
     props.getDetails(id);
   }, []);
@@ -111,10 +118,74 @@ function FlightDetail(props) {
       </TopSection>
       <Container style={{ marginTop: -40 }}>
         <Row>
-          <Col xs={12} md={6} lg={9} className="d-none d-md-block">
-            sisi kiri
+          <Col xs={12} sm={6} lg={8} className="d-none d-sm-block">
+            <CardStyled className="shadow p-0 mb-5">
+              <div className="px-3 py-4">
+                <TextLabel className="input-label">Full Name</TextLabel>
+                <Input
+                  className="form-input"
+                  type="text"
+                  placeholder="Your name ..."
+                />
+                <TextLabel className="input-label">Email</TextLabel>
+                <Input
+                  className="form-input"
+                  type="email"
+                  placeholder="Your email ..."
+                />
+                <TextLabel className="input-label">Phone Number</TextLabel>
+                <Input
+                  className="form-input"
+                  type="text"
+                  placeholder="+62 ...."
+                />
+                <Alert variant="danger">
+                  <MdWarning /> Make sure the customer data is correct.
+                </Alert>
+              </div>
+            </CardStyled>
+
+            <TextCity className="py-3">Passenger Details</TextCity>
+            <CardStyled className="shadow mb-4">
+              <div className="px-3 py-4">
+                <TextLabel className="input-label">Title</TextLabel>
+                <Input
+                  className="form-input"
+                  type="text"
+                  placeholder="Mr/ Mrs"
+                />
+                <TextLabel className="input-label">Full Name</TextLabel>
+                <Input
+                  className="form-input"
+                  type="text"
+                  placeholder="Your name"
+                />
+                <TextLabel className="input-label">Nationality</TextLabel>
+                <Input
+                  className="form-input"
+                  type="text"
+                  placeholder="+62 ...."
+                />
+              </div>
+            </CardStyled>
+
+            <TextCity className="py-3">Passenger Details</TextCity>
+            <CardStyled className="shadow mb-4">
+              <div className="px-3 py-4 border-bottom">
+                <SectionJustify>
+                  <TextLabel>Travel Insurance</TextLabel>
+                  <TextLabel className="input-label">
+                    <Light>Rp 1.000.000</Light>/pax
+                  </TextLabel>
+                </SectionJustify>
+              </div>
+              <div className="px-3 py-4">
+                <TextLabel>Get travel compensation up to $ 10.000,00</TextLabel>
+              </div>
+            </CardStyled>
           </Col>
-          <Col xs={12} md={6} lg={3}>
+
+          <Col xs={12} sm={6} lg={4}>
             <div style={{ maxWidth: 400 }}>
               <CardStyled className="shadow p-0" style={{ maxWidth: 400 }}>
                 <div className="px-3 pt-4 pb-5 border-bottom">
