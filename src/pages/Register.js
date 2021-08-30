@@ -65,6 +65,10 @@ function Register(props) {
       });
   };
 
+  const otherAuth = () => {
+    props.toggleAuth();
+  };
+
   return (
     <Container style={{ paddingTop: 60 }}>
       <Row>
@@ -99,7 +103,7 @@ function Register(props) {
               </FormAuth>
               <Hr />
               <PAuth>Already have an Account?</PAuth>
-              <Link to="/login">
+              <Link to="/login" onClick={otherAuth}>
                 <GeneralButton value="Sign In" />
               </Link>
             </MaxWidth>
