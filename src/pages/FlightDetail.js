@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import GeneralButton from "../components/GeneralButton";
 import styled from "styled-components";
 
@@ -28,7 +28,7 @@ import { connect } from "react-redux";
 import { getDetails } from "../redux/actions/product";
 import { useParams } from "react-router-dom";
 import { createTransaction } from "../redux/actions/transaction";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 import { useHistory } from "react-router";
 
 const H6 = styled.h6`
@@ -56,16 +56,16 @@ const TextFacilities = styled(TextLabel)`
 `;
 
 function FlightDetail(props) {
-  const {id} = useParams()
+  const { id } = useParams();
   const { REACT_APP_BACKEND_URL: URL } = process.env;
   const {details} = props.product
   const {token} = props.auth
   let history = useHistory()
   console.log('ini',id);
   useEffect(() => {
-    props.getDetails(id)
-  }, [])
-    
+    props.getDetails(id);
+  }, []);
+
   const onBooking = () => {
     props.createTransaction(id, token).then(()=>{
       if(props.transaction.sccMseg === "create transaction successfully!" && props.transaction.errMseg === ""){
@@ -81,18 +81,10 @@ function FlightDetail(props) {
           }, 1500))
         )
       }
-    }).catch(()=>{
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: `${props.transaction.errMseg}`,
-        showConfirmButton: false,
-        timer: 1500
-      })
     })
   }
 
-  return (  
+  return (
     <>
       <TopSection>
         <Container
@@ -114,21 +106,29 @@ function FlightDetail(props) {
                 <div className="px-3 pt-4 pb-5 border-bottom">
                   <SectionJustify>
                     <div>
-                      <TextCity>{details.destination.base_country_code}</TextCity>
+                      <TextCity>
+                        {details.destination.base_country_code}
+                      </TextCity>
                       <TextDetail>{details.time_leave}</TextDetail>
                     </div>
                     <FaPlaneDeparture className="mx-5" />
                     <div>
-                      <TextCity>{details.destination.destination_country_code}</TextCity>
+                      <TextCity>
+                        {details.destination.destination_country_code}
+                      </TextCity>
                       <TextDetail>{details.time_arrive}</TextDetail>
                     </div>
                   </SectionJustify>
                   <SectionJustify className="my-3">
-                    <Image src={
-                      details.airline.picture !== null && !details.airline.picture.startsWith('http') ?
-                      details.airline.picture=`${URL}${details.airline.picture}` 
-                      : garudaIndonesia} 
-                      style={{ maxWidth: 50 }} />
+                    <Image
+                      src={
+                        details.airline.picture !== null &&
+                        !details.airline.picture.startsWith("http")
+                          ? details.airline.picture = `${URL}${details.airline.picture}`
+                          : garudaIndonesia
+                      }
+                      style={{ maxWidth: 50 }}
+                    />
                     <div className="d-flex flex-column align-items-end">
                       <Section>
                         <BsFillStarFill color="#FF7F23" />
@@ -193,21 +193,26 @@ function FlightDetail(props) {
               <SectionJustify className="my-3">
                 <TextDetail>Total you'll pay</TextDetail>
                 <TextCity style={{ color: `${MainColor}` }}>
-                  Rp.{details.price.toLocaleString('en')}
+                  Rp.{details.price.toLocaleString("en")}
                 </TextCity>
               </SectionJustify>
-              <GeneralButton className="my-3" isPrimary value="BOOK FLIGHT" action={onBooking}/>
+              <GeneralButton
+                className="my-3"
+                isPrimary
+                value="BOOK FLIGHT"
+                action={onBooking}
+              />
             </div>
           </Col>
         </Row>
       </Container>
     </>
-  )
+  );
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   product: state.product,
   transaction: state.transaction,
-})
-const mapDispatchToProps = {getDetails, createTransaction}
-export default connect(mapStateToProps, mapDispatchToProps)(FlightDetail)
+});
+const mapDispatchToProps = { getDetails, createTransaction };
+export default connect(mapStateToProps, mapDispatchToProps)(FlightDetail);

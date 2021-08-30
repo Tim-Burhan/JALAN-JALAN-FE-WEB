@@ -16,3 +16,22 @@ export const getProfile = (token) => async (dispatch) => {
     });
   }
 };
+
+export const editProfile = (data, token) => {
+  return async (dispatch) => {
+    const form = new FormData()
+    for (let i in data) {
+        if (data[i] !== "") {
+          form.append(i, data[i]);
+        }
+      }
+      const {data : userData} = await http(token).put(`${URL}/profile/editprofile`, form)
+      dispatch({
+        type: 'UPDATE_PROFILE',
+        payload: {
+          user: userData.results,
+          message: userData.Message
+        }
+      })
+  }
+}

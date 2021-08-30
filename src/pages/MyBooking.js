@@ -67,13 +67,14 @@ class MyBooking extends Component {
   }
   componentDidMount(){
    const {token} = this.props.auth
-   const { REACT_APP_BACKEND_URL: URL } = process.env;
-  this.props.getHistoryProducts(token)
-  this.props.getProfile(token)
-    if(this.props.profile.data.user.picture !== null && !this.props.profile.data.user.picture.startsWith('http')){
-      this.props.profile.data.user.picture=`${URL}${this.props.profile.data.user.picture}`
+   this.props.getProfile(token) 
+   this.props.getHistoryProducts(token).then(()=> {
+    const { REACT_APP_BACKEND_URL: URL } = process.env;
+    if(this.props.profile.data?.user.picture !== null && !this.props.profile.data?.user.picture.startsWith('http')){
+      return this.props.profile.data.user.picture=`${URL}${this.props.profile.data.user.picture}`
     }
-   console.log('data nih',this.props.profile.data.user.picture);
+   })
+   
   }
   render() {
     return (
@@ -89,10 +90,10 @@ class MyBooking extends Component {
           >
             <div>
               <ProfileCard 
-              name={this.props.profile.data?.user?.name} 
-              city={this.props.profile.data?.user?.city} 
+              name={this.props.profile?.data?.user?.name} 
+              city={this.props.profile?.data?.user?.city} 
               picture={this.props.profile?.data?.user?.picture}
-              number={this.props.profile.data?.number} 
+              number={this.props.profile?.data?.number} 
               />
             </div>
             <RightBox>
@@ -106,8 +107,8 @@ class MyBooking extends Component {
                 </SectionJustify>
               </Card>
 
-              {this.props.transaction.history.map((data) => (
-                <Card className="shadow  mb-3">
+              {this.props.transaction?.history?.map((data) => (
+                <Card className="shadow  mb-3" key={data.id}>
                   <Row className="border-bottom mb-3">
                     <Col>
                       <TextLabel className="mb-3">

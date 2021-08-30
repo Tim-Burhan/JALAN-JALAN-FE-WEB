@@ -5,6 +5,8 @@ import ProfileCard from "../components/ProfileCardBox";
 import GeneralButton from "../components/GeneralButton";
 
 import { getProfile } from "../redux/actions/profile";
+import { editProfile } from "../redux/actions/profile";
+import Swal from "sweetalert2";
 
 import { Col, Row } from "react-bootstrap";
 import { FiChevronRight } from "react-icons/fi";
@@ -74,17 +76,54 @@ class Profile extends React.Component {
           saldo: 9000000,
         },
       ],
+      username: "",
+      email: "",
+      phoneNumber: "",
+      city: "",
+      address: "",
+      post_code: "",
+      picture: "",
     };
   }
 
   componentDidMount() {
     const { token } = this.props.auth;
     console.log(token);
-    this.props.getUserById(token);
+    this.props.getProfile(token).then( async()=>{
+      if(this.props.profile.data?.user.picture !== null && !this.props.profile.data?.user.picture.startsWith('http')){
+        this.props.profile.data.user.picture=`${URL}${this.props.profile.data.user.picture}`
+      }
+      await this.setState({username: this.props.profile?.data?.user?.username})
+      await this.setState({email: this.props.profile?.data?.user?.email})
+      await this.setState({city: this.props.profile?.data?.user?.city})
+      await this.setState({phoneNumber: this.props.profile?.data?.user?.phoneNumber})
+      await this.setState({address: this.props.profile?.data?.user?.address})
+      await this.setState({post_code: this.props.profile?.data?.user?.post_code})
+      return await this.setState({picture: this.props.profile?.data?.user?.picture})
+    })
+  }
+
+  onUpdateProfile =(e) => {
+    e.preventDefault()
+    const {token} = this.props.auth
+    const {username, picture, phoneNumber, address, post_code} = this.state
+    this.props.editProfile({username, picture, phoneNumber, address, post_code}, token).then(()=> {
+        if(this.props.profile.sccMsg === "User is Updated without req file Successfully" || this.props.profile.sccMsg === "User is Updated with req file Successfully"){
+          return(
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "profile updated Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          )
+        }
+    })
   }
 
   render() {
-    const { data } = this.props.user;
+    // const { data } = this.props.user;
     // console.log(data);
     return (
       <Parent>
@@ -98,7 +137,13 @@ class Profile extends React.Component {
             }}
           >
             <div>
-              <ProfileCard />
+              <ProfileCard 
+              name={this.props.profile?.data?.user?.name} 
+              city={this.props.profile?.data?.user?.city} 
+              picture={this.state.picture}
+              number={this.props.profile?.data?.number} 
+              action={e=>this.setState({picture: e.target.value})}
+              />
             </div>
             <RightBox>
               <Card className="shadow mb-3">
@@ -109,16 +154,20 @@ class Profile extends React.Component {
                     <Col>
                       <TextLabel className="mb-3">Contact</TextLabel>
                       <Label className="mb-2">Email</Label>
+                      {console.log("ini email", this.state.email)}
                       <Input
                         className="mb-3"
                         type="email"
-                        placeholder="flightbooking@jalanjalan.com"
+                        placeholder={this.state.email}
+                        style={{color: "grey"}}
+                        onChange={e=>this.setState({email: e.target.value})}
                       />
                       <Label className="mb-2">Phone Number</Label>
                       <Input
                         className="mb-3"
                         type="text"
-                        placeholder="+628211234567"
+                        placeholder={this.state.phoneNumber}
+                        onChange={e=>this.setState({phoneNumber: e.target.value})}
                       />
                       <Section className="d-flex justify-content-end mb-3">
                         <TextLabel
@@ -135,24 +184,27 @@ class Profile extends React.Component {
                       <Input
                         className="mb-3"
                         type="text"
-                        placeholder={data.email}
+                        placeholder={this.state.username}
+                        onChange={e=>this.setState({username: e.target.value})}
                       />
                       <Label className="mb-2">City</Label>
-                      <Input className="mb-3" type="text" placeholder="Medan" />
+                      <Input className="mb-3" type="text" placeholder={this.state.city}/>
                       <Label className="mb-2">Address</Label>
                       <Input
                         className="mb-3"
                         type="text"
-                        placeholder="Medan, Indonesia"
+                        placeholder={this.state.address}
+                        onChange={e=>this.setState({address: e.target.value})}
                       />
                       <Label className="mb-2">Post Code</Label>
                       <Input
                         className="mb-3"
                         type="number"
-                        placeholder="55555"
+                        placeholder={this.state.post_code}
+                        onChange={e=>this.setState({post_code: e.target.value})}
                       />
                       <Section className="d-flex justify-content-end">
-                        <GeneralButton isPrimary value="save" />
+                        <GeneralButton isPrimary value="save" action={this.onUpdateProfile}/>
                       </Section>
                     </Col>
                   </Row>
@@ -168,9 +220,9 @@ class Profile extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  user: state.user,
+  profile: state.profile,
 });
 
-const mapDispatchToProps = { getProfile };
+const mapDispatchToProps = { getProfile, editProfile };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

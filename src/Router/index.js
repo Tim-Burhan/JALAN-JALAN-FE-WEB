@@ -19,7 +19,6 @@ import SearchResult from "../pages/SearchResult";
 
 function Routes({ auth }) {
   const { onAuth } = auth;
-  // console.log(onAuth);
 
   return (
     <Router>
@@ -33,11 +32,18 @@ function Routes({ auth }) {
         <PrivateRoute path="/searchResult">
           <SearchResult />
         </PrivateRoute>
-        {/* <Route path="/explore" component={Explore} /> */}
-        <Route path="/flightDetail/:id" component={FlightDetail} />
-        <Route path="/bookingDetail" component={BookingDetail} />
-        <Route path="/myBooking" component={MyBooking} />
-        <Route path="/profile" component={Profile} />
+        <PrivateRoute path="/flightDetail/:id">
+          <FlightDetail />
+        </PrivateRoute>
+        <PrivateRoute path="/bookingDetail">
+          <BookingDetail />
+        </PrivateRoute>
+        <PrivateRoute path="/myBooking">
+          <MyBooking />
+        </PrivateRoute>
+        <PrivateRoute path="/profile">
+          <Profile />
+        </PrivateRoute>
       </Switch>
       <Footer />
     </Router>

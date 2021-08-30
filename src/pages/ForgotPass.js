@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import GeneralButton from "../components/GeneralButton";
-import AuthHeader from "../components/AuthHeader";
 import {
   ContentWrapper,
   FormAuth,
@@ -9,12 +8,14 @@ import {
   PAuth,
 } from "../components/AuthStyles";
 import AuthTitle from "../components/AuthTitle";
+import LeftSideAuth from "../components/LeftSideAuth";
 
 export default function ForgotPass() {
   return (
-    <Container>
+    <Container style={{ paddingTop: 60 }}>
       <Row>
-        <Col>
+        <LeftSideAuth />
+        <Col xs={12} md={6} lg={4}>
           <ContentWrapper>
             <MaxWidth>
               <AuthTitle title="Forgot Password" />

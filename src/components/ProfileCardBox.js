@@ -5,6 +5,10 @@ import { AiFillStar, AiFillSetting } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import styled from "styled-components";
 
+import { connect } from "react-redux";
+import { authLogOut } from "../redux/actions/auth";
+import { Link } from "react-router-dom";
+
 const Box = styled.div`
   width: 100%;
   display: flex;
@@ -98,22 +102,22 @@ const CrediteCard = styled.div`
   box-shadow: 0px 7px 7px 7px rgba(13, 219, 137, 0.2);
 `;
 
+
 export default function ProfileCardBox(props) {
   const { REACT_APP_BACKEND_URL: URL } = process.env;
+
   return (
     <ProfileCard className="shadow p-3 mb-5 ">
       <ProfileContent>
         <Box>
-          <Profileimg src={props.picture !== null && !props.picture.startsWith("http") ?
-          props.picture = `${URL}${props.picture}`
-          : null } alt="" />
+          <Profileimg src={props.picture} alt="" />
           <Wrapper>
             <label for="upload-photo" className="">
               <SelectPict>
                 <Text>Select Photo</Text>
               </SelectPict>
             </label>
-            <Picker type="file" name="photo" id="upload-photo" />
+            <Picker type="file" name="photo" id="upload-photo" onChange={props.action}/>
             <Name>{props.name}</Name>
             <Place>{props.city},Indonesia</Place>
           </Wrapper>
@@ -159,9 +163,9 @@ export default function ProfileCardBox(props) {
               <CgProfile color="#0ddb89" size={20} />
             </div>
             <div style={{ width: 60 }}>
-              <div style={{ fontSize: 14, textAlign: "start", marginLeft: 10 }}>
+              <Link to='/profile' style={{ fontSize: 14, textAlign: "start", marginLeft: 10, textDecoration: 'none' }}>
                 Profile
-              </div>
+              </Link >
             </div>
           </div>
           <div
@@ -207,9 +211,11 @@ export default function ProfileCardBox(props) {
               alignItems: "center",
               width: "100%",
               marginBottom: 10,
+              cursor: "pointer",
             }}
+            onClick={authLogOut}
           >
-            <div style={{ width: 60 }}>
+            <div style={{ width: 60, cursor: "pointer" }}>
               <FiLogOut color="#F24545" size={20} />
             </div>
             <div style={{ width: 60 }}>
@@ -230,3 +236,10 @@ export default function ProfileCardBox(props) {
     </ProfileCard>
   );
 }
+
+// const mapStateToProps = (state) => ({
+//   auth: state.auth,
+//   chats: state.auth,
+// });
+// const mapDispatchToProps = { authLogOut };
+// export default connect(mapStateToProps, mapDispatchToProps)(ProfileCardBox);

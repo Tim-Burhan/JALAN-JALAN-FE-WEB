@@ -10,6 +10,7 @@ import {
   Hr,
 } from "../components/AuthStyles";
 
+import LeftSideAuth from "../components/LeftSideAuth";
 import GeneralButton from "../components/GeneralButton";
 import AuthTitle from "../components/AuthTitle";
 import { authLogin } from "../redux/actions/auth";
@@ -64,7 +65,8 @@ function Login(props) {
   return (
     <Container style={{ paddingTop: 60 }}>
       <Row>
-        <Col>
+        <LeftSideAuth />
+        <Col xs={12} md={6} lg={4}>
           <ContentWrapper>
             <MaxWidth>
               <AuthTitle title="New Password" />

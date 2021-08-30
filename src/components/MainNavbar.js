@@ -10,6 +10,7 @@ import {
   Form,
   FormControl,
   Button,
+  InputGroup,
   Row,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -28,20 +29,53 @@ import { authLogOut } from "../redux/actions/auth";
 
 import { FiMail } from "react-icons/fi";
 import { BiCheckDouble } from "react-icons/bi";
+import { FaCamera, FaChevronLeft } from "react-icons/fa";
 
-import andrew from "../assets/img/users/andrew.png";
-import bocil from "../assets/img/users/bocil.png";
-import brando from "../assets/img/users/brando.png";
-import gindo from "../assets/img/users/gindo.png";
-import melissa from "../assets/img/users/melissa.png";
+import { test } from "../dummy/chatDialog";
+import { chats } from "../dummy/chatUsers";
 
-const chats = "../dummy/chatUsers";
-console.log(chats);
+const ButtonWrapper = styled.div`
+  position: absolute;
+  margin-top: -33px;
+  margin-left: 360px;
+  cursor: pointer;
+  color: #898989;
+  display: inline-block;
+  & :hover {
+    color: #0ddb89;
+  }
+`;
 
 const ChatWrapper = styled.div`
   padding: 20px;
-  heght: 600px;
+  height: 600px;
   backgound-color: green;
+`;
+
+const Dialog = styled.div`
+  display: inline-block;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+`;
+
+const YourDial = styled(Dialog)`
+  background-color: LightGreen;
+`;
+
+const FriendDial = styled(Dialog)`
+  background-color: silver;
+`;
+
+const DialogWrapper = styled.div`
+  flex: 1;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -54,47 +88,38 @@ const ImageWrapper = styled.div`
 function MainNavbar({ auth, authLogOut}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-  const senderList = [
-    {
-      picture: andrew,
-      name: "Andrew",
-      message: "Me: Bro!!!",
-      time: "8:30",
-      status: BiCheckDouble,
-    },
-    {
-      picture: bocil,
-      name: "Nathan",
-      message: "Ok, bye",
-      time: "Yesterday",
-      status: "",
-    },
-    {
-      picture: brando,
-      name: "Brando",
-      message: "Why did you do that?",
-      time: "8:30",
-      status: BiCheckDouble,
-    },
-    {
-      picture: gindo,
-      name: "Gindo",
-      message: "Hello",
-      time: "9:30",
-      status: BiCheckDouble,
-    },
-    {
-      picture: melissa,
-      name: "Melissa",
-      message: "Hi",
-      time: "Yesterday",
-      status: "",
-    },
-  ];
+  const handleShow = () => {
+    handleCloseChat();
+    setShow(true);
+  };
 
-  console.log(senderList);
+  const [showChat, setShowChat] = useState(false);
+  const handleCloseChat = () => setShowChat(false);
+  const handleShowChat = () => {
+    handleClose();
+    setShowChat(true);
+  };
+
+  const [chatData, setChatData] = useState(test);
+  const [message, setMessage] = useState("");
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    const chat = chatData;
+
+    chat.push({
+      sender: 1,
+      recipient: 2,
+      message,
+    });
+
+    setMessage("");
+    setChatData(chat);
+  };
+
+  
+
 
 
   return (
@@ -170,14 +195,17 @@ function MainNavbar({ auth, authLogOut}) {
           </SectionJustify>
           <Modal.Body className="show-grid">
             <Container>
-              {senderList.map((v, idx) => {
+              {chats.map((v, idx) => {
                 return (
                   <Row
                     className={
-                      idx < senderList.length - 1
+                      idx < chats.length - 1
                         ? "border-bottom py-2 my-2"
                         : "py-2 my-2"
                     }
+                    onClick={handleShowChat}
+                    style={{ cursor: "pointer" }}
+                    key={idx}
                   >
                     <Col xs={2}>
                       <ImageWrapper>
@@ -198,6 +226,71 @@ function MainNavbar({ auth, authLogOut}) {
                 );
               })}
             </Container>
+          </Modal.Body>
+        </ChatWrapper>
+      </Modal>
+
+      <Modal show={showChat} onHide={handleCloseChat}>
+        <ChatWrapper>
+          <Modal.Body className="show-grid">
+            <Modal.Header>
+              <Modal.Title>
+                <Section onClick={handleShow} style={{ cursor: "pointer" }}>
+                  <FaChevronLeft size={20} />
+                  <TextCity style={{ fontSize: 20, marginLeft: 10 }}>
+                    Andrew
+                  </TextCity>
+                </Section>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body
+              style={{
+                height: 500,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <DialogWrapper>
+                {chatData.map((v) => {
+                  return (
+                    <>
+                      {v.sender === 1 ? (
+                        <YourDial className="align-self-end">
+                          {v.message}
+                        </YourDial>
+                      ) : (
+                        <FriendDial className="align-self-start">
+                          {v.message}
+                        </FriendDial>
+                      )}
+                    </>
+                  );
+                })}
+              </DialogWrapper>
+              <Form onSubmit={sendMessage}>
+                <InputGroup className="mb-3">
+                  <div className="position-relative w-100">
+                    <FormControl
+                      placeholder="Your text ..."
+                      aria-label="Your text ..."
+                      aria-describedby="basic-addon2"
+                      value={message}
+                      onChange={(event) => setMessage(event.target.value)}
+                      style={{ paddingRight: 50 }}
+                    />
+                    <Button
+                      type="submit"
+                      variant="success"
+                      id="button-addon2"
+                      className="d-none"
+                    />
+                    <ButtonWrapper>
+                      <FaCamera size={24} />
+                    </ButtonWrapper>
+                  </div>
+                </InputGroup>
+              </Form>
+            </Modal.Body>
           </Modal.Body>
         </ChatWrapper>
       </Modal>
