@@ -1,6 +1,8 @@
 const initialState = {
   data: {},
   errMsg: "",
+  details: {},
+  sccMsg: "",
 };
 
 const user = (state = initialState, action) => {
@@ -16,6 +18,13 @@ const user = (state = initialState, action) => {
         ...state,
         errMsg: action.payload,
       };
+    }
+    case 'UPDATE_PROFILE': {
+      return {
+        ...state,
+        details: action.payload.user,
+        sccMsg: action.payload.message
+      } 
     }
     default: {
       return {

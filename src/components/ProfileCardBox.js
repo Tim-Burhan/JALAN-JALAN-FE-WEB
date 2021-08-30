@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import { connect } from "react-redux";
 import { authLogOut } from "../redux/actions/auth";
+import { Link } from "react-router-dom";
 
 const Box = styled.div`
   width: 100%;
@@ -116,7 +117,7 @@ export default function ProfileCardBox(props) {
                 <Text>Select Photo</Text>
               </SelectPict>
             </label>
-            <Picker type="file" name="photo" id="upload-photo" />
+            <Picker type="file" name="photo" id="upload-photo" onChange={props.action}/>
             <Name>{props.name}</Name>
             <Place>{props.city},Indonesia</Place>
           </Wrapper>
@@ -162,9 +163,9 @@ export default function ProfileCardBox(props) {
               <CgProfile color="#0ddb89" size={20} />
             </div>
             <div style={{ width: 60 }}>
-              <div style={{ fontSize: 14, textAlign: "start", marginLeft: 10 }}>
+              <Link to='/profile' style={{ fontSize: 14, textAlign: "start", marginLeft: 10, textDecoration: 'none' }}>
                 Profile
-              </div>
+              </Link >
             </div>
           </div>
           <div

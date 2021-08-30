@@ -22,13 +22,21 @@ const auth = (state= initialState, action) =>{
     case 'AUTH_LOGIN' :{
       return{
         ...state,
-        token: action.payload
+        token: action.payload.token,
+        sccMsg: action.payload.message,
       }
     }
     case 'AUTH_LOGIN_FAILED' :{
       return{
         ...state,
         errMsg: action.payload
+      }
+    }
+    case 'RESET_MESSAGE' :{
+      return{
+        ...state,
+        sccMsg: "",
+        errMsg: ""
       }
     }
     case 'AUTH_REGISTER' :{

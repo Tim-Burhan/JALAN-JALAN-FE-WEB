@@ -21,11 +21,11 @@ export const createTransaction = (productId, token) => {
         payload: err.response.data.message,
       });
     }
-
   }
 }
 
 export const getHistoryProducts = (token) => {
+  console.log(token);
   return async (dispatch) => {
     const {data} = await http(token).get(`${URL}/transaction/user-transaction`)
     dispatch({

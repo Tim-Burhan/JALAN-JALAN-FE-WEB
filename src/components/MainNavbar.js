@@ -205,6 +205,7 @@ function MainNavbar({ auth, authLogOut}) {
                     }
                     onClick={handleShowChat}
                     style={{ cursor: "pointer" }}
+                    key={idx}
                   >
                     <Col xs={2}>
                       <ImageWrapper>

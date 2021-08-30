@@ -127,9 +127,6 @@ function Explore(props) {
   useEffect(() => {
     props.openNavbar()
     props.searchProducts(search, page, filterAirline, filterPrice1, filterPrice2, filterDeparture1, filterArrive1, filterTransit1,)
-    props.getDetails(1)
-    props.getHistoryProducts(token)
-    props.getProfile(token)
   },[])
   return (
     <>
@@ -248,5 +245,5 @@ function Explore(props) {
 const mapStateToProps = state => ({
   auth: state.auth
 })
-const mapDispatchToProps = {openNavbar, searchProducts, getDetails, getHistoryProducts, getProfile}
+const mapDispatchToProps = {openNavbar, searchProducts,}
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)

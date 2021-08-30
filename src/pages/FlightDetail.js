@@ -65,45 +65,32 @@ const TextFacilities = styled(TextLabel)`
 function FlightDetail(props) {
   const { id } = useParams();
   const { REACT_APP_BACKEND_URL: URL } = process.env;
-  const { details } = props.product;
-  const { token } = props.auth;
-  let history = useHistory();
-
-  // window.alert(id);
+  const {details} = props.product
+  const {token} = props.auth
+  let history = useHistory()
+  console.log('ini',id);
+  
   useEffect(() => {
     props.getDetails(id);
   }, []);
 
   const onBooking = () => {
-    props
-      .createTransaction(id, token)
-      .then(() => {
-        if (
-          props.transaction.sccMseg === "create transaction successfully!" &&
-          props.transaction.errMseg === ""
-        ) {
+    props.createTransaction(id, token).then(()=>{
+      if(props.transaction.sccMseg === "create transaction successfully!" && props.transaction.errMseg === ""){
+        return (
           Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: "Booking Failed",
+            position: 'top-end',
+            icon: 'success',
+            title: 'Booking Successfully',
             showConfirmButton: false,
-            timer: 1500,
-          });
-          setTimeout(() => {
-            history.push("/mybooking");
-          }, 1500);
-        }
-      })
-      .catch(() => {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: `${props.transaction.errMseg}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-  };
+            timer: 1500
+          }, setTimeout(() => {
+            history.push('/mybooking')
+          }, 1500))
+        )
+      }
+    })
+  }
 
   return (
     <>
@@ -209,7 +196,7 @@ function FlightDetail(props) {
                       src={
                         details.airline.picture !== null &&
                         !details.airline.picture.startsWith("http")
-                          ? (details.airline.picture = `${URL}${details.airline.picture}`)
+                          ? details.airline.picture = `${URL}${details.airline.picture}`
                           : garudaIndonesia
                       }
                       style={{ maxWidth: 50 }}
